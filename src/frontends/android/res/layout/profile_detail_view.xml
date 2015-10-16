@@ -15,7 +15,15 @@
     or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
     for more details.
 -->
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:bind="http://schemas.android.com/apk/res-auto">
+<data>
+    <variable name="profile" type="org.strongswan.android.data.VpnProfile"/>
+    <import type="android.view.View"/>
+    <import type="org.strongswan.android.data.VpnType.VpnTypeFeature"/>
+</data>
+
+<ScrollView
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
@@ -37,7 +45,8 @@
             android:layout_height="wrap_content"
             android:singleLine="true"
             android:inputType="textNoSuggestions"
-            android:hint="@string/profile_name_hint" />
+            android:hint="@string/profile_name_hint"
+            android:text="@{profile.name}" />
 
         <TextView
             android:layout_width="match_parent"
@@ -50,7 +59,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:singleLine="true"
-            android:inputType="textNoSuggestions" />
+            android:inputType="textNoSuggestions"
+            android:text="@{profile.gateway}" />
 
         <TextView
             android:layout_width="match_parent"
@@ -74,7 +84,8 @@
             android:id="@+id/username_password_group"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:orientation="vertical"
+            android:visibility="@{profile.vpnType.has(VpnTypeFeature.USER_PASS) ? View.VISIBLE : View.GONE}">
 
             <TextView
                 android:layout_width="match_parent"
@@ -87,7 +98,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
-                android:inputType="textNoSuggestions" />
+                android:inputType="textEmailAddress"
+                android:text="@{profile.username}"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -101,7 +113,8 @@
                 android:layout_height="wrap_content"
                 android:singleLine="true"
                 android:inputType="textPassword|textNoSuggestions"
-                android:hint="@string/profile_password_hint" />
+                android:hint="@string/profile_password_hint"
+                android:text="@{profile.password}"/>
 
         </LinearLayout>
 
@@ -109,7 +122,8 @@
             android:id="@+id/user_certificate_group"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:orientation="vertical"
+            android:visibility="@{profile.vpnType.has(VpnTypeFeature.CERTIFICATE) ? View.VISIBLE : View.GONE}">
 
             <TextView
                 android:layout_width="match_parent"
@@ -136,7 +150,7 @@
             android:text="@string/profile_ca_auto_label" />
 
         <include
-            android:id="@+id/select_certificate"
+            android:id="@+id/select_anchor_certificate"
             layout="@layout/two_line_button" />
 
         <CheckBox
@@ -163,7 +177,8 @@
                 android:layout_height="wrap_content"
                 android:singleLine="true"
                 android:inputType="number|textNoSuggestions"
-                android:hint="@string/profile_use_default_hint" />
+                android:hint="@string/profile_use_default_hint"
+                android:text="@{profile.mTU == null ? `` : profile.mTU.toString()}"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -177,7 +192,8 @@
                 android:layout_height="wrap_content"
                 android:singleLine="true"
                 android:inputType="number|textNoSuggestions"
-                android:hint="@string/profile_use_default_hint" />
+                android:hint="@string/profile_use_default_hint"
+                android:text="@{profile.port == null ? `` : profile.port.toString()}"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -214,3 +230,5 @@
     </LinearLayout>
 
 </ScrollView>
+
+</layout>

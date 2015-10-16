@@ -19,7 +19,12 @@ package org.strongswan.android.data;
 
 import java.util.EnumMap;
 
-public class VpnProfile implements Cloneable
+import android.databinding.BaseObservable;
+import android.databinding.Bindable;
+
+import org.strongswan.android.BR;
+
+public class VpnProfile extends BaseObservable implements Cloneable
 {
 	/* While storing this as EnumSet would be nicer this simplifies storing it in a database */
 	public static final int SPLIT_TUNNELING_BLOCK_IPV4 = 1;
@@ -62,6 +67,7 @@ public class VpnProfile implements Cloneable
 		this.mGateway = gateway;
 	}
 
+	@Bindable
 	public VpnType getVpnType()
 	{
 		return mVpnType;
@@ -70,6 +76,7 @@ public class VpnProfile implements Cloneable
 	public void setVpnType(VpnType type)
 	{
 		this.mVpnType = type;
+		notifyPropertyChanged(BR.vpnType);
 	}
 
 	public String getUsername()
